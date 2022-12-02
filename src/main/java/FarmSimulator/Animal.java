@@ -16,4 +16,8 @@ abstract class Animal
         this.weight = weight;
         this.age = age;
     }
+
+    public void milk()
+    {
+    }
 }
