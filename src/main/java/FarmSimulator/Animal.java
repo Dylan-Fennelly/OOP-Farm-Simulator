@@ -1,5 +1,7 @@
 package FarmSimulator;
 
+import java.util.UUID;
+
 abstract class Animal
 {
     private String animalID;
@@ -8,16 +10,13 @@ abstract class Animal
     private double weight;
     private int age;
 
-    public Animal(String animalID, String animalName, String pedigree, double weight, int age)
+    public Animal( String animalName, String pedigree, double weight, int age)
     {
-        this.animalID = animalID;
+        this.animalID = UUID.randomUUID().toString();
         this.animalName = animalName;
         this.pedigree = pedigree;
         this.weight = weight;
         this.age = age;
     }
 
-    public void milk()
-    {
-    }
 }

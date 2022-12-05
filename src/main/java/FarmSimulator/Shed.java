@@ -21,14 +21,14 @@ public class Shed
     }
     public void installMilkingMachine(MilkingMachine milkingMachine)
     {
-
+        this.milkingMachine = milkingMachine;
     }
 
-    public void milkAnimal(Animal animal)
+    public void milkAnimal(IMilkable milkable)
     {
         if (!(milktank == null))
         {
-            animal.milk();
+            milkable.milk();
         }
         else
         {
@@ -36,11 +36,11 @@ public class Shed
         }
     }
 
-    public void milkAnimal(Collection<Animal> animals)
+    public void milkAnimal(Collection<IMilkable> animals)
     {
         if (!(animals == null))
         {
-            for(Animal animal:animals)
+            for(IMilkable animal:animals)
             {
                 animal.milk();
             }
@@ -50,8 +50,14 @@ public class Shed
             throw new IllegalStateException("No Milk Machine Connected");
         }
     }
+
+    @Override
     public String toString()
     {
-        return "";
+        return "Shed{" +
+                "idNum='" + idNum + '\'' +
+                ", milkingMachine=" + milkingMachine +
+                ", milktank=" + milktank +
+                '}';
     }
 }

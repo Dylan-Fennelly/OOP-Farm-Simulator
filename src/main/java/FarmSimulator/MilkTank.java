@@ -1,5 +1,7 @@
 package FarmSimulator;
 
+import java.util.UUID;
+
 public class MilkTank
 {
     private String milkTankID;
@@ -10,14 +12,14 @@ public class MilkTank
 
     public MilkTank()
     {
-        this.milkTankID = null;//Make random generated
+        this.milkTankID = UUID.randomUUID().toString();//Make random generated
         this.isCowsMilk = true;
         this.CAPACITY = 2000;
         this.currentLevel = 0;
     }
     public MilkTank(double capacity)
     {
-        this.milkTankID = null;//Make random generated
+        this.milkTankID = UUID.randomUUID().toString();//Make random generated
         this.isCowsMilk = true;
         this.CAPACITY = capacity;
         this.currentLevel = 0;
@@ -26,6 +28,10 @@ public class MilkTank
     public double getCapacity()
     {
         return CAPACITY;
+    }
+    public boolean isCowsMilk()
+    {
+        return isCowsMilk;
     }
     public double freeSpace()
     {
@@ -52,5 +58,39 @@ public class MilkTank
             return true;
         }
         return false;
+    }
+    public double getFromMilkTank(double amount)
+    {
+        if(amount >currentLevel)
+        {
+            System.out.println("Unable to extract "+amount+" Litres from tank");
+            System.out.println("Extracting "+currentLevel+" Litres from Tank");
+            double tempAmount = currentLevel;
+            currentLevel = 0;
+            return tempAmount;
+        }
+        else if(amount <= currentLevel)
+        {
+            System.out.println("Extracting "+currentLevel+" Litres from Tank");
+            double tempAmount = currentLevel;
+            currentLevel = 0;
+            return tempAmount;
+        }
+        else
+        {
+            System.out.println("Nothing in tank");
+            return 0;
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MilkTank{" +
+                "milkTankID='" + milkTankID + '\'' +
+                ", isCowsMilk=" + isCowsMilk +
+                ", CAPACITY=" + CAPACITY +
+                ", currentLevel=" + currentLevel +
+                '}';
     }
 }
