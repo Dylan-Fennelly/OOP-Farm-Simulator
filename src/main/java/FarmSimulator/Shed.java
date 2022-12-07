@@ -1,9 +1,10 @@
 package FarmSimulator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Shed
+public class Shed implements Serializable
 {
     private String idNum;
     private MilkingMachine milkingMachine;
@@ -28,7 +29,7 @@ public class Shed
     {
         if (!(milktank == null))
         {
-            milkable.milk();
+            milkingMachine.milk(milkable);
         }
         else
         {
@@ -42,7 +43,7 @@ public class Shed
         {
             for(IMilkable animal:animals)
             {
-                animal.milk();
+                milkingMachine.milk(animal);
             }
         }
         else

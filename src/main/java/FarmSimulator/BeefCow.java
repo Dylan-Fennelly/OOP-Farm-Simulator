@@ -2,8 +2,13 @@ package FarmSimulator;
 
 public class BeefCow extends Animal
 {
-    public BeefCow(String animalID, String animalName, String pedigree, double weight, int age)
+    public BeefCow(String animalName, String pedigree, double weight, int age)
     {
-        super(animalID, animalName, pedigree, weight, age);
+        super(animalName, pedigree, weight, age);
+    }
+
+    public BeefCow(String pedigree, double weight, int age)
+    {
+        super(pedigree, weight, age);
     }
 }

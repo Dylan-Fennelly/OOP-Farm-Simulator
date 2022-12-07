@@ -1,8 +1,9 @@
 package FarmSimulator;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class MilkTank
+public class MilkTank implements Serializable
 {
     private String milkTankID;
     private boolean isCowsMilk;

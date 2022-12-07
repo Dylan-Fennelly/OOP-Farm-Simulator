@@ -1,21 +1,24 @@
 package FarmSimulator;
 
+import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
-public class Farm
+public class Farm implements Serializable
 {
     private String farmID;
     private String farmOwner;
     private ShedDB sheds;
     private HerdDB herds;
 
-    public Farm(String farmID, String farmOwner, ShedDB sheds, HerdDB herds)
+    public Farm(String farmOwner, ShedDB sheds)
     {
-        this.farmID = farmID;
+        this.farmID = UUID.randomUUID().toString();
         this.farmOwner = farmOwner;
         this.sheds = sheds;
-        this.herds = herds;
+        this.herds =new HerdDB(farmID);
     }
+
 
     @Override
     public boolean equals(Object o)
@@ -31,5 +34,6 @@ public class Farm
     {
         return Objects.hash(farmID);
     }
+
 }
 
