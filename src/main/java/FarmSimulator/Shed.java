@@ -1,8 +1,8 @@
 package FarmSimulator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 public class Shed implements Serializable
 {
@@ -25,11 +25,11 @@ public class Shed implements Serializable
         this.milkingMachine = milkingMachine;
     }
 
-    public void milkAnimal(IMilkable milkable)
+    public void milkAnimal(Animal animal)
     {
-        if (!(milktank == null))
+        if (milkingMachine != null)
         {
-            milkingMachine.milk(milkable);
+            milkIfMilkable(animal);
         }
         else
         {
@@ -37,19 +37,54 @@ public class Shed implements Serializable
         }
     }
 
-    public void milkAnimal(Collection<IMilkable> animals)
+    public void milkAnimal(Collection<Animal> animals)
     {
-        if (!(animals == null))
+        if (milkingMachine != null)
         {
-            for(IMilkable animal:animals)
+            for(Animal animal:animals)
             {
-                milkingMachine.milk(animal);
+                milkIfMilkable(animal);
             }
         }
         else
         {
             throw new IllegalStateException("No Milk Machine Connected");
         }
+    }
+
+    private void milkIfMilkable(Animal animal)
+    {
+        if(animal instanceof IMilkable)
+        {
+            if(milktank.getMilkType().equals("Cow")&& animal instanceof DairyCow)
+            {
+                milkingMachine.milk((IMilkable) animal);
+            }
+            else if (milktank.getMilkType().equals("Goat")&& animal instanceof Goat)
+            {
+                milkingMachine.milk((IMilkable) animal);
+            }
+            else
+            {
+                System.out.println("No animals match MilkTank Type:"+milktank.getMilkType());
+            }
+
+        }
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shed shed = (Shed) o;
+        return Objects.equals(idNum, shed.idNum);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(idNum);
     }
 
     @Override

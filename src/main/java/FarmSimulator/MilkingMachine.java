@@ -18,13 +18,53 @@ public class MilkingMachine implements Serializable
         return milktank;
     }
 
-    public void setMilkTank(MilkTank milktank)
+    public boolean setMilkTank(MilkTank milktank)
     {
-        this.milktank = milktank;
+        if(milktank!=null)
+        {
+            this.milktank = milktank;
+            System.out.println("MilkTank:" + milktank.getMilkTankID() + " installed");
+            return true;
+        }
+        else
+        {
+            System.out.println("MilkTank:" + this.milktank.getMilkTankID() + " is already present");
+            return false;
+        }
     }
-    void milk(IMilkable milkable)
+    public boolean removeMilkTank()
     {
-        if(!(milkable==null))
+        if(milktank != null)
+        {
+            System.out.println("MilkTank:" + this.milktank.getMilkTankID() + " Removed");
+            milktank = null;
+            return true;
+        }
+        else
+        {
+            System.out.println("No MilkTank present to remove");
+            return false;
+        }
+    }
+    public boolean replaceMilkTank(MilkTank milktank)
+    {
+        if(milktank != null)
+        {
+            System.out.println("MilkTank:"+ this.milktank + " has been replaced with MilkTank:"+milktank);
+            this.milktank = milktank;
+            return true;
+        }
+        else
+        {
+            System.out.println("No object to replace");
+            return false;
+        }
+
+
+    }
+    public void milk(IMilkable milkable)
+    {
+        if(milktank!=null)
         {
             milktank.addToTank(milkable.milk());
         }

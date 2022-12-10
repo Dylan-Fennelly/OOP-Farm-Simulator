@@ -6,7 +6,7 @@ import java.util.UUID;
 public class MilkTank implements Serializable
 {
     private String milkTankID;
-    private boolean isCowsMilk;
+    private String milkType;
     private final double CAPACITY;
     private double currentLevel;
 
@@ -14,25 +14,30 @@ public class MilkTank implements Serializable
     public MilkTank()
     {
         this.milkTankID = UUID.randomUUID().toString();//Make random generated
-        this.isCowsMilk = true;
+        this.milkType = "Unspecified";
         this.CAPACITY = 2000;
         this.currentLevel = 0;
     }
     public MilkTank(double capacity)
     {
         this.milkTankID = UUID.randomUUID().toString();//Make random generated
-        this.isCowsMilk = true;
+        this.milkType = "Unspecified";
         this.CAPACITY = capacity;
         this.currentLevel = 0;
+    }
+
+    public String getMilkTankID()
+    {
+        return milkTankID;
     }
 
     public double getCapacity()
     {
         return CAPACITY;
     }
-    public boolean isCowsMilk()
+    public String getMilkType()
     {
-        return isCowsMilk;
+        return milkType;
     }
     public double freeSpace()
     {
@@ -68,6 +73,7 @@ public class MilkTank implements Serializable
             System.out.println("Extracting "+currentLevel+" Litres from Tank");
             double tempAmount = currentLevel;
             currentLevel = 0;
+            milkType = "Unspecified";
             return tempAmount;
         }
         else if(amount <= currentLevel)
@@ -75,6 +81,7 @@ public class MilkTank implements Serializable
             System.out.println("Extracting "+currentLevel+" Litres from Tank");
             double tempAmount = currentLevel;
             currentLevel = 0;
+            milkType = "Unspecified";
             return tempAmount;
         }
         else
@@ -89,7 +96,7 @@ public class MilkTank implements Serializable
     {
         return "MilkTank{" +
                 "milkTankID='" + milkTankID + '\'' +
-                ", isCowsMilk=" + isCowsMilk +
+                ", isCowsMilk=" + milkType +
                 ", CAPACITY=" + CAPACITY +
                 ", currentLevel=" + currentLevel +
                 '}';

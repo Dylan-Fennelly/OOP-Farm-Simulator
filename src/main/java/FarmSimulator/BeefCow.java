@@ -11,4 +11,5 @@ public class BeefCow extends Animal
     {
         super(pedigree, weight, age);
     }
+
 }

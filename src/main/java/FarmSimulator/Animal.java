@@ -3,6 +3,7 @@ package FarmSimulator;
 import com.github.javafaker.Faker;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 abstract class Animal implements Serializable
@@ -60,5 +61,20 @@ abstract class Animal implements Serializable
     public int getAge()
     {
         return age;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Animal animal = (Animal) o;
+        return Objects.equals(animalID, animal.animalID);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(animalID);
     }
 }

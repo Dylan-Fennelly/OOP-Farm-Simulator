@@ -52,32 +52,32 @@ public class HerdDB implements Serializable
     }
 
 
-    private boolean checkAnimalExists(Animal animal)
+    private boolean checkAnimalExists(Animal newAnimal)
     {
-        for(Animal animal1:dairyCows)
+        for(Animal animal:dairyCows)
         {
-            if(animal.getAnimalID() == animal1.getAnimalID())
+            if(animal.equals(newAnimal))
             {
                 return true;
             }
         }
-        for(Animal animal1:beefCows)
+        for(Animal animal:beefCows)
         {
-            if(animal.getAnimalID() == animal1.getAnimalID())
+            if(animal.equals(newAnimal))
             {
                 return true;
             }
         }
-        for(Animal animal1:sheep)
+        for(Animal animal:sheep)
         {
-            if(animal.getAnimalID() == animal1.getAnimalID())
+            if(animal.equals(newAnimal))
             {
                 return true;
             }
         }
-        for(Animal animal1:goats)
+        for(Animal animal:goats)
         {
-            if(animal.getAnimalID() == animal1.getAnimalID())
+            if(animal.equals(newAnimal))
             {
                 return true;
             }

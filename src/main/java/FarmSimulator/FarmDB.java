@@ -13,7 +13,7 @@ public class FarmDB implements ISavable
         this.farms = new ArrayList<Farm>();
         loadFromFile();
     }
-    public void addPlayer(Farm farm)
+    public void addFarm(Farm farm)
     {
         if(!doesFarmAlreadyExist(farm))
         {
@@ -21,11 +21,11 @@ public class FarmDB implements ISavable
         }
     }
 
-    private boolean doesFarmAlreadyExist(Farm f)
+    private boolean doesFarmAlreadyExist(Farm newFarm)
     {
         for(Farm farm:farms)
         {
-            if (farm.equals(f))
+            if (farm.equals(newFarm))
             {
                 return true;
             }
@@ -36,16 +36,7 @@ public class FarmDB implements ISavable
     @Override
     public void loadFromFile()
     {
-        try (BufferedReader fileReader = new BufferedReader((new FileReader("farms.txt")))) {
-            String input;
-            while ((input = fileReader.readLine()) != null) {
 
-            }
-        } catch (FileNotFoundException fnfe) {
-            fnfe.getMessage();
-        } catch (IOException ioe) {
-            ioe.getMessage();
-        }
     }
 
     @Override
