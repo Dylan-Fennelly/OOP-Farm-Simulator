@@ -2,18 +2,21 @@ package FarmSimulator;
 
 import java.util.Random;
 
-public class DairyCow extends Animal implements IMilkable
+public class DairyCow extends Animal implements IMilkable, IDailyReset
 {
     private int maxTimesMilkedPerDay;
     private int timesMilkedToday;
     private int totalMilkProduction;
     private int udderCapacity;
+    private int currentUdderLevel;
 
     public DairyCow(String animalName, String pedigree, double weight, int age)
     {
         super(animalName, pedigree, weight, age);
         udderCapacity = generateUdderCapacity();
+        currentUdderLevel = udderCapacity;
         maxTimesMilkedPerDay = generateMaxTimesMilkedPerDay();
+        totalMilkProduction = 0;
     }
 
     public DairyCow(String pedigree, double weight, int age)
@@ -21,13 +24,22 @@ public class DairyCow extends Animal implements IMilkable
         super(pedigree, weight, age);
         udderCapacity = generateUdderCapacity();
         maxTimesMilkedPerDay = generateMaxTimesMilkedPerDay();
+        totalMilkProduction = 0;
     }
-
+    @Override
     public double milk()
     {
-        totalMilkProduction += udderCapacity;
+        double milkDelivered = generateMilkDeliveryAmount();
+        if(currentUdderLevel-milkDelivered<=0&&currentUdderLevel!=0)
+        {
+            double milkToReturn = currentUdderLevel;
+            currentUdderLevel =0;
+            return milkToReturn;
+        }
+        currentUdderLevel -= milkDelivered;
+        totalMilkProduction += milkDelivered;
         timesMilkedToday ++;
-        return udderCapacity;
+        return milkDelivered;
     }
 
     private int generateUdderCapacity()
@@ -40,13 +52,45 @@ public class DairyCow extends Animal implements IMilkable
         Random random = new Random();
         return random.nextInt(5-2 +1)+2;
     }
+    private int generateMilkDeliveryAmount()
+    {
+        Random random = new Random();
+        return random.nextInt(8-2 +1)+2;
+    }
+
     public double getCapacity()
     {
         return udderCapacity;
     }
-    public void resetTimeMilked()
+
+    public int getCurrentUdderLevel()
     {
+        return currentUdderLevel;
+    }
+
+    public int getTotalMilkProduction()
+    {
+        return totalMilkProduction;
+    }
+
+    public int getMaxTimesMilkedPerDay()
+    {
+        return maxTimesMilkedPerDay;
+    }
+
+    public int getTimesMilkedToday()
+    {
+        return timesMilkedToday;
+    }
+
+    @Override
+    public void dailyReset()
+    {
+        maxTimesMilkedPerDay = generateMaxTimesMilkedPerDay();
         timesMilkedToday = 0;
+        udderCapacity = generateUdderCapacity();
+        currentUdderLevel = udderCapacity;
+
     }
 
 }

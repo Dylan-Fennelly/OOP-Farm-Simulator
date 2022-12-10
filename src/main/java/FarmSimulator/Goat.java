@@ -2,9 +2,9 @@ package FarmSimulator;
 
 import java.util.Random;
 
-public class Goat extends Animal implements IMilkable
+public class Goat extends Animal implements IMilkable,IDailyReset
 {
-    private int timesMilkedPerDay;
+    private boolean milkedToday;
     private int totalMilkProduction;
     private int udderCapacity;
 
@@ -13,17 +13,20 @@ public class Goat extends Animal implements IMilkable
     {
         super(animalName, pedigree, weight, age);
         udderCapacity +=generateUdderCapacity();
+        milkedToday = false;
     }
 
     public Goat(String pedigree, double weight, int age)
     {
         super(pedigree, weight, age);
+        milkedToday = false;
     }
 
     @Override
     public double milk()
     {
         totalMilkProduction+= udderCapacity;
+        milkedToday =true;
         return udderCapacity;
     }
     private int generateUdderCapacity()
@@ -32,4 +35,20 @@ public class Goat extends Animal implements IMilkable
         return random.nextInt((3-2) +1)+2;
     }
 
+    public boolean isMilkedToday()
+    {
+        return milkedToday;
+    }
+
+    public int getTotalMilkProduction()
+    {
+        return totalMilkProduction;
+    }
+
+    @Override
+    public void dailyReset()
+    {
+        udderCapacity = generateUdderCapacity();
+        milkedToday = false;
+    }
 }

@@ -25,6 +25,10 @@ public class MilkTank implements Serializable
         this.CAPACITY = capacity;
         this.currentLevel = 0;
     }
+    public void setMilkType(String milkType)
+    {
+        this.milkType = milkType;
+    }
 
     public String getMilkTankID()
     {

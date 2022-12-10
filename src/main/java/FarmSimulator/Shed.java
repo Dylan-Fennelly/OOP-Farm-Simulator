@@ -3,6 +3,7 @@ package FarmSimulator;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Shed implements Serializable
 {
@@ -10,26 +11,44 @@ public class Shed implements Serializable
     private MilkingMachine milkingMachine;
     private MilkTank milktank;
 
-    public Shed(MilkTank milktank)
+    public Shed()
     {
-        this.idNum =null; //Make me random
-        this.milktank = milktank;
+        this.idNum = UUID.randomUUID().toString();
     }
 
     public MilkTank getMilkTank()
     {
-        return milktank;
+        return this.milktank;
     }
     public void installMilkingMachine(MilkingMachine milkingMachine)
     {
         this.milkingMachine = milkingMachine;
+    }
+    public void installMilkTank(MilkTank milktank)
+    {
+        this.milktank = milktank;
     }
 
     public void milkAnimal(Animal animal)
     {
         if (milkingMachine != null)
         {
-            milkIfMilkable(animal);
+            NotMilkedAnimalCounter notMilkedAnimalCounter = new NotMilkedAnimalCounter();
+            if(!milkIfMilkable(animal,notMilkedAnimalCounter))
+            {
+                if(notMilkedAnimalCounter.getNotMilkable()>0)
+                {
+                    System.out.println("Animal was not milked as it was not milkable");
+                }
+                else if(notMilkedAnimalCounter.getWrongMilkType()>0)
+                {
+                    System.out.println("Animal was not milked as the MilkTank does not match current animal");
+                }
+                else if(notMilkedAnimalCounter.getMilkLimitExceeded()>0)
+                {
+                    System.out.println("Animal was not milked as this animal has been milked too many times today");
+                }
+            }
         }
         else
         {
@@ -41,9 +60,20 @@ public class Shed implements Serializable
     {
         if (milkingMachine != null)
         {
+            NotMilkedAnimalCounter notMilkedAnimalCounter = new NotMilkedAnimalCounter();
             for(Animal animal:animals)
             {
-                milkIfMilkable(animal);
+                milkIfMilkable(animal,notMilkedAnimalCounter);
+            }
+            if(notMilkedAnimalCounter.getWrongMilkType()>0&&notMilkedAnimalCounter.getNotMilkable()>0)
+            {
+                System.out.println(notMilkedAnimalCounter.getNotMilkable()+" Animals not milked due to not being milkable\n" +
+                        notMilkedAnimalCounter.getWrongMilkType()+" Animals not milked due to wrong Type of Milk\n" +
+                        notMilkedAnimalCounter.getMilkLimitExceeded()+"Animals not milked due to milk limit exceeded");
+            }
+            else
+            {
+                System.out.println("All Animals milked successfully");
             }
         }
         else
@@ -52,24 +82,62 @@ public class Shed implements Serializable
         }
     }
 
-    private void milkIfMilkable(Animal animal) //TODO: Resolve cyclical situation where milktank is both a part of shed and milking machine by somehow passing the id of the tank to both the shed and the milkmachine
+    private boolean milkIfMilkable(Animal animal,NotMilkedAnimalCounter notMilkedAnimalCounter)
     {
         if(animal instanceof IMilkable)
         {
             if(milktank.getMilkType().equals("Cow")&& animal instanceof DairyCow)
             {
-                milkingMachine.milk((IMilkable) animal);
+                if(((DairyCow) animal).getMaxTimesMilkedPerDay()>((DairyCow) animal).getTimesMilkedToday()&&((DairyCow) animal).getCurrentUdderLevel()!=0)
+                {
+                    milkingMachine.milk((IMilkable) animal);
+                    return true;
+                }
+                else
+                {
+                    notMilkedAnimalCounter.incrementMilkLimitExceeded();
+                    return false;
+                }
             }
             else if (milktank.getMilkType().equals("Goat")&& animal instanceof Goat)
             {
-                milkingMachine.milk((IMilkable) animal);
+                if(((Goat)animal).isMilkedToday())
+                {
+                    milkingMachine.milk((IMilkable) animal);
+                    return true;
+                }
+                else
+                {
+                    notMilkedAnimalCounter.incrementMilkLimitExceeded();
+                    return false;
+                }
+
+            }
+            else if (milktank.getMilkType().equals("Unspecified"))
+            {
+                System.out.println("MilkTank is Unspecified\nSetting to current animals type....");
+                if(animal instanceof DairyCow)
+                {
+                    milktank.setMilkType("Cow");
+                    milkingMachine.milk((IMilkable) animal);
+                    return true;
+
+                }
+                else if (animal instanceof Goat)
+                {
+                    milktank.setMilkType("Goat");
+                    milkingMachine.milk((IMilkable) animal);
+                    return true;
+                }
             }
             else
             {
-                System.out.println("No animals match MilkTank Type:"+milktank.getMilkType());
+                notMilkedAnimalCounter.incrementWrongMilkType();
+                return false;
             }
-
         }
+        notMilkedAnimalCounter.incrementNotMilkable();
+        return false;//If animal is not milkable. This used in the milk animals method
     }
 
     @Override
@@ -96,4 +164,5 @@ public class Shed implements Serializable
                 ", milktank=" + milktank +
                 '}';
     }
+
 }

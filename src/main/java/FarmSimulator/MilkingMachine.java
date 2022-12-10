@@ -1,6 +1,7 @@
 package FarmSimulator;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MilkingMachine implements Serializable
@@ -72,5 +73,20 @@ public class MilkingMachine implements Serializable
         {
             throw new IllegalStateException("No Milk Tank Connected");
         }
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MilkingMachine that = (MilkingMachine) o;
+        return Objects.equals(idNum, that.idNum);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(idNum);
     }
 }
