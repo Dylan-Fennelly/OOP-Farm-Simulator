@@ -52,7 +52,7 @@ public class Shed implements Serializable
         }
     }
 
-    private void milkIfMilkable(Animal animal)
+    private void milkIfMilkable(Animal animal) //TODO: Resolve cyclical situation where milktank is both a part of shed and milking machine by somehow passing the id of the tank to both the shed and the milkmachine
     {
         if(animal instanceof IMilkable)
         {
