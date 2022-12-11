@@ -10,15 +10,20 @@ public class FarmDB implements ISavable
 
     public FarmDB()
     {
-        this.farms = new ArrayList<Farm>();
-        loadFromFile();
+        this.farms = loadFromFile();
     }
-    public void addFarm(Farm farm)
+    public FarmDB(Boolean newFarm)
+    {
+        this.farms = new ArrayList<>();
+    }
+    public boolean addFarm(Farm farm)
     {
         if(!doesFarmAlreadyExist(farm))
         {
             this.farms.add(farm);
+            return true;
         }
+        return false;
     }
 
     private boolean doesFarmAlreadyExist(Farm newFarm)
@@ -32,16 +37,77 @@ public class FarmDB implements ISavable
         }
         return false;
     }
+    public Farm findFarmByName(String name)
+    {
+        for(Farm farm:farms)
+        {
+            if(farm.getFarmOwner().equalsIgnoreCase(name))
+            {
+                return farm;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Farm> getFarms()
+    {
+        return farms;
+    }
 
     @Override
-    public void loadFromFile()
+    public String toString()
     {
+        return "FarmDB{" +
+                "farms=" + farms +
+                '}';
+    }
 
+    @Override
+    public ArrayList<Farm> loadFromFile()
+    {
+        try
+        {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Farms.dat"));
+            ArrayList<Farm> farms = (ArrayList<Farm>)ois.readObject();
+            System.out.println("Farms loaded successfully");
+            ois.close();
+            return farms;
+        }
+        catch (FileNotFoundException fnfe)
+        {
+            System.out.println(fnfe);
+        }
+        catch (IOException ioe)
+        {
+            System.out.println(ioe);
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     @Override
     public void saveToFile()
     {
+        try
+        {
+            FileOutputStream fos = new FileOutputStream("Farms.dat");
+            ObjectOutputStream  oos = new ObjectOutputStream(fos);
+            oos.writeObject(farms);
+            oos.flush();
+            oos.close();
+            System.out.println("Farms saved");
+        }
+        catch (FileNotFoundException fnfe)
+        {
+            System.out.println(fnfe);
+        }
+        catch (IOException ioe)
+        {
+            System.out.println(ioe);
+        }
 
     }
 }

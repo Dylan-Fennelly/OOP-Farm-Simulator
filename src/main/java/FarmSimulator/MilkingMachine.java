@@ -19,7 +19,7 @@ public class MilkingMachine implements Serializable
         return milktank;
     }
 
-    public boolean setMilkTank(MilkTank milktank)
+    public boolean ConnectMilkTank(MilkTank milktank)
     {
         if(milktank!=null)
         {
@@ -33,7 +33,7 @@ public class MilkingMachine implements Serializable
             return false;
         }
     }
-    public boolean removeMilkTank()
+    public boolean DetachMilkTank()
     {
         if(milktank != null)
         {

@@ -11,14 +11,44 @@ public class Farm implements Serializable
     private ShedDB sheds;
     private HerdDB herds;
 
-    public Farm(String farmOwner, ShedDB sheds)
+    public Farm(String farmOwner)
     {
         this.farmID = UUID.randomUUID().toString();
         this.farmOwner = farmOwner;
-        this.sheds = sheds;
+        this.sheds = new ShedDB(farmID);
         this.herds =new HerdDB(farmID);
     }
 
+    public String getFarmID()
+    {
+        return farmID;
+    }
+
+    public String getFarmOwner()
+    {
+        return farmOwner;
+    }
+
+    public ShedDB getSheds()
+    {
+        return sheds;
+    }
+
+    public HerdDB getHerds()
+    {
+        return herds;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Farm{" +
+                "farmID='" + farmID + '\'' +
+                ", farmOwner='" + farmOwner + '\'' +
+                ", sheds=" + sheds +
+                ", herds=" + herds +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o)

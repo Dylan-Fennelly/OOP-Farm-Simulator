@@ -23,11 +23,24 @@ public class Shed implements Serializable
     public void installMilkingMachine(MilkingMachine milkingMachine)
     {
         this.milkingMachine = milkingMachine;
+        if(milktank != null)
+        {
+            milkingMachine.ConnectMilkTank(milktank);
+            System.out.println("MilkTank found in shed...\n" +
+                    "MilkTank has been connected");
+        }
     }
     public void installMilkTank(MilkTank milktank)
     {
         this.milktank = milktank;
+        if(milkingMachine.getMilkTank()==null)
+        {
+            milkingMachine.ConnectMilkTank(milktank);
+            System.out.println("MilkMachine found in shed...\n" +
+                    "MilkTank has been connected");
+        }
     }
+
 
     public void milkAnimal(Animal animal)
     {

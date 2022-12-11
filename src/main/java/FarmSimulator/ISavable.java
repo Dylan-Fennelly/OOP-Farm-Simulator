@@ -1,7 +1,9 @@
 package FarmSimulator;
 
+import java.util.ArrayList;
+
 public interface ISavable
 {
-    void loadFromFile();
+    ArrayList<Farm> loadFromFile();
     void saveToFile();
 }
