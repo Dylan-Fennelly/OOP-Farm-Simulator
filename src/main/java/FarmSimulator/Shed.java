@@ -18,11 +18,18 @@ public class Shed implements Serializable
 
     public MilkTank getMilkTank()
     {
-        return this.milktank;
+        return milktank;
     }
+
+    public MilkingMachine getMilkingMachine()
+    {
+        return milkingMachine;
+    }
+
     public void installMilkingMachine(MilkingMachine milkingMachine)
     {
         this.milkingMachine = milkingMachine;
+        System.out.println("Milk Machine has been installed");
         if(milktank != null)
         {
             milkingMachine.ConnectMilkTank(milktank);
@@ -33,11 +40,27 @@ public class Shed implements Serializable
     public void installMilkTank(MilkTank milktank)
     {
         this.milktank = milktank;
+        System.out.println("Milk Tank has been installed");
         if(milkingMachine.getMilkTank()==null)
         {
             milkingMachine.ConnectMilkTank(milktank);
             System.out.println("MilkMachine found in shed...\n" +
                     "MilkTank has been connected");
+        }
+    }
+    public boolean replaceMilkTank(MilkTank milktank)
+    {
+        if(milktank != null)
+        {
+            System.out.println("MilkTank:"+ this.milktank + " has been replaced with MilkTank:"+milktank);
+            this.milktank = milktank;
+            milkingMachine.replaceMilkTank(milktank);
+            return true;
+        }
+        else
+        {
+            System.out.println("No object to replace");
+            return false;
         }
     }
 

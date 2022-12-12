@@ -60,8 +60,6 @@ public class MilkingMachine implements Serializable
             System.out.println("No object to replace");
             return false;
         }
-
-
     }
     public void milk(IMilkable milkable)
     {
@@ -73,6 +71,15 @@ public class MilkingMachine implements Serializable
         {
             throw new IllegalStateException("No Milk Tank Connected");
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MilkingMachine{" +
+                "idNum='" + idNum + '\'' +
+                ", milktank=" + milktank +
+                '}';
     }
 
     @Override

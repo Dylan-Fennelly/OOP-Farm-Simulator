@@ -18,7 +18,7 @@ public class ShedDB implements Serializable
     {
         return sheds;
     }
-    public boolean addFarm(Shed shed)
+    public boolean addShed(Shed shed)
     {
         if(!doesShedAlreadyExist(shed))
         {

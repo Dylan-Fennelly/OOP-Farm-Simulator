@@ -27,7 +27,15 @@ public class MilkTank implements Serializable
     }
     public void setMilkType(String milkType)
     {
-        this.milkType = milkType;
+        if(currentLevel==0)
+        {
+            this.milkType = milkType;
+        }
+        else
+        {
+            System.out.println("MilkTank already contains milk, you cannot change its type");
+        }
+
     }
 
     public String getMilkTankID()

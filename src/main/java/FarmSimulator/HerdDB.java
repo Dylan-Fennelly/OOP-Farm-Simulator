@@ -84,4 +84,58 @@ public class HerdDB implements Serializable
         }
         return false;
     }
+    public ArrayList<Animal> groupedHerd()
+    {
+        ArrayList<Animal> groupedHerd= new ArrayList<>();
+        groupedHerd.addAll(dairyCows);
+        groupedHerd.addAll(beefCows);
+        groupedHerd.addAll(goats);
+        groupedHerd.addAll(sheep);
+        return groupedHerd;
+    }
+    public boolean removeAnimalFromHerd(Animal animal)
+    {
+        if(!(checkAnimalExists(animal)))
+        {
+            if(animal instanceof DairyCow)
+            {
+                dairyCows.remove((DairyCow) animal);
+                return true;
+            }
+            else if(animal instanceof BeefCow)
+            {
+                beefCows.remove((BeefCow) animal);
+                return true;
+            }
+            else if (animal instanceof Goat)
+            {
+                goats.remove((Goat) animal);
+                return true;
+            }
+            else if (animal instanceof Sheep)
+            {
+                sheep.remove((Sheep) animal);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+
+    @Override
+    public String toString()
+    {
+        return "HerdDB{" +
+                "farmID='" + farmID + '\'' +
+                ", dairyCows=" + dairyCows +
+                ", beefCows=" + beefCows +
+                ", goats=" + goats +
+                ", sheep=" + sheep +
+                '}';
+    }
 }

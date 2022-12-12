@@ -1,5 +1,7 @@
 package FarmSimulator;
 
+import FarmSimulator.MenuEnums.Pedigree;
+
 import java.util.Random;
 
 public class Goat extends Animal implements IMilkable,IDailyReset
@@ -9,14 +11,14 @@ public class Goat extends Animal implements IMilkable,IDailyReset
     private int udderCapacity;
 
 
-    public Goat(String animalName, String pedigree, double weight, int age)
+    public Goat(String animalName, Pedigree pedigree, double weight, int age)
     {
         super(animalName, pedigree, weight, age);
         udderCapacity +=generateUdderCapacity();
         milkedToday = false;
     }
 
-    public Goat(String pedigree, double weight, int age)
+    public Goat(Pedigree pedigree, double weight, int age)
     {
         super(pedigree, weight, age);
         milkedToday = false;
@@ -44,7 +46,21 @@ public class Goat extends Animal implements IMilkable,IDailyReset
     {
         return totalMilkProduction;
     }
-
+    @Override
+    public int getOverallValue()
+    {
+        int value = (int) Math.ceil(super.getWeight()* 14.07);
+        if(getPedigree()==Pedigree.PURE_BRED)
+        {
+            value += value*0.1;
+        }
+        if(super.getAge() >2)
+        {
+            double percentage = 1- Math.pow(0.95,super.getAge() -2);
+            value =(int) Math.ceil(value *percentage);
+        }
+        return value;
+    }
     @Override
     public void dailyReset()
     {

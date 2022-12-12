@@ -1,5 +1,7 @@
 package FarmSimulator;
 
+import FarmSimulator.MenuEnums.Pedigree;
+
 import java.util.Random;
 
 public class DairyCow extends Animal implements IMilkable, IDailyReset
@@ -10,7 +12,7 @@ public class DairyCow extends Animal implements IMilkable, IDailyReset
     private int udderCapacity;
     private int currentUdderLevel;
 
-    public DairyCow(String animalName, String pedigree, double weight, int age)
+    public DairyCow(String animalName, Pedigree pedigree, double weight, int age)
     {
         super(animalName, pedigree, weight, age);
         udderCapacity = generateUdderCapacity();
@@ -19,7 +21,7 @@ public class DairyCow extends Animal implements IMilkable, IDailyReset
         totalMilkProduction = 0;
     }
 
-    public DairyCow(String pedigree, double weight, int age)
+    public DairyCow(Pedigree pedigree, double weight, int age)
     {
         super(pedigree, weight, age);
         udderCapacity = generateUdderCapacity();
@@ -81,6 +83,21 @@ public class DairyCow extends Animal implements IMilkable, IDailyReset
     public int getTimesMilkedToday()
     {
         return timesMilkedToday;
+    }
+    @Override
+    public int getOverallValue()
+    {
+        int value = (int) Math.ceil(super.getWeight()* 3.76);
+        if(getPedigree()==Pedigree.PURE_BRED)
+        {
+            value += value*0.1;
+        }
+        if(super.getAge() >2)
+        {
+            double percentage = 1- Math.pow(0.95,super.getAge()-2);
+            value =(int) Math.ceil(value *percentage);
+        }
+        return value;
     }
 
     @Override

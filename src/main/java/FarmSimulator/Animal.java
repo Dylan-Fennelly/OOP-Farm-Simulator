@@ -1,5 +1,6 @@
 package FarmSimulator;
 
+import FarmSimulator.MenuEnums.Pedigree;
 import com.github.javafaker.Faker;
 
 import java.io.Serializable;
@@ -10,11 +11,11 @@ abstract class Animal implements Serializable
 {
     private String animalID;
     private String animalName;
-    private String pedigree;
+    private Pedigree pedigree;
     private double weight;
     private int age;
 
-    public Animal(String animalName, String pedigree, double weight, int age)
+    public Animal(String animalName, Pedigree pedigree, double weight, int age)
     {
         this.animalID = UUID.randomUUID().toString();
         this.animalName = animalName;
@@ -23,7 +24,7 @@ abstract class Animal implements Serializable
         this.age = age;
     }
 
-    public Animal(String pedigree, double weight, int age)
+    public Animal(Pedigree pedigree, double weight, int age)
     {
         this.animalID = UUID.randomUUID().toString();
         this.animalName = randomFakeName();
@@ -48,7 +49,7 @@ abstract class Animal implements Serializable
         return animalName;
     }
 
-    public String getPedigree()
+    public Pedigree getPedigree()
     {
         return pedigree;
     }
@@ -62,7 +63,20 @@ abstract class Animal implements Serializable
     {
         return age;
     }
-
+    public int getOverallValue()
+    {
+        int value = (int) Math.ceil(weight* 4.76);
+        if(getPedigree()==Pedigree.PURE_BRED)
+        {
+            value += value*0.1;
+        }
+        if(age >2)
+        {
+            double percentage = 1- Math.pow(0.95,age -2);
+            value =(int) Math.ceil(value *percentage);
+        }
+        return value;
+    }
     @Override
     public boolean equals(Object o)
     {
@@ -72,9 +86,41 @@ abstract class Animal implements Serializable
         return Objects.equals(animalID, animal.animalID);
     }
 
+    public void setAnimalName(String animalName)
+    {
+        this.animalName = animalName;
+    }
+
+    public void setPedigree(Pedigree pedigree)
+    {
+        this.pedigree = pedigree;
+    }
+
+    public void setWeight(double weight)
+    {
+        this.weight = weight;
+    }
+
+    public void setAge(int age)
+    {
+        this.age = age;
+    }
+
     @Override
     public int hashCode()
     {
         return Objects.hash(animalID);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Animal{" +
+                "animalID='" + animalID + '\'' +
+                ", animalName='" + animalName + '\'' +
+                ", pedigree=" + pedigree +
+                ", weight=" + weight +
+                ", age=" + age +
+                '}';
     }
 }
